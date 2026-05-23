@@ -106,17 +106,7 @@ public class OwnerRestController implements OwnersApi, V2Api {
         Page<Owner> owners = this.clinicService.findOwners(
             lastName,
             PageRequest.of(pageNumber, pageSize, Sort.by("id")));
-        return new ResponseEntity<>(toOwnerPageDto(owners), HttpStatus.OK);
-    }
-
-    private OwnerPageDto toOwnerPageDto(Page<Owner> owners) {
-        OwnerPageDto ownerPageDto = new OwnerPageDto();
-        ownerPageDto.setContent(ownerMapper.toOwnerDtoCollection(owners.getContent()));
-        ownerPageDto.setPage(owners.getNumber());
-        ownerPageDto.setSize(owners.getSize());
-        ownerPageDto.setTotalElements(owners.getTotalElements());
-        ownerPageDto.setTotalPages(owners.getTotalPages());
-        return ownerPageDto;
+        return new ResponseEntity<>(ownerMapper.toOwnerPageDto(owners), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
